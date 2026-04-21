@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#39ff7e" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Snake Neon" />
+  <title>Snake Neon</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="hud">
+    <span class="label">SCORE</span>
+    <span id="score">0</span>
+    <span class="label">BEST</span>
+    <span id="best">0</span>
+  </div>
+
+  <div class="canvas-wrap">
+    <canvas id="game"></canvas>
+    <div id="overlay" class="hidden">
+      <p class="over-title">GAME OVER</p>
+      <p id="final-score"></p>
+      <button id="restart">REINICIAR</button>
+    </div>
+  </div>
+
+  <div class="dpad">
+    <button id="btn-up">▲</button>
+    <button id="btn-left">◀</button>
+    <div id="btn-center"></div>
+    <button id="btn-right">▶</button>
+    <button id="btn-down">▼</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
