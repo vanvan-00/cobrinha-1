@@ -211,7 +211,9 @@ function calcSize() {
   const avH = window.innerHeight - 48 - 168;
   const avW = window.innerWidth - 16;
   const sz  = Math.min(avH, avW, 440);
-  return Math.floor(sz / GRID) * GRID;
+  // Garante mínimo de 200px caso a tela ainda não tenha dimensões reais
+  const safe = Math.max(sz, 200);
+  return Math.floor(safe / GRID) * GRID;
 }
 function resizeCanvas() {
   const sz = calcSize();
@@ -620,7 +622,9 @@ canvas.addEventListener('touchend', e => {
 // ── BOTÕES UI ─────────────────────────────────────────────────────────
 document.getElementById('btn-play').addEventListener('click', () => {
   showScreen('screen-game');
-  initGame();
+  // Aguarda 2 frames para garantir que o CSS de transição
+  // já aplicou o layout e o canvas tem dimensões reais
+  requestAnimationFrame(() => requestAnimationFrame(() => initGame()));
 });
 document.getElementById('btn-shop').addEventListener('click', () => {
   renderShop();
@@ -630,7 +634,9 @@ document.getElementById('btn-back-shop').addEventListener('click', () => {
   showScreen('screen-menu');
   updateMenuStats();
 });
-document.getElementById('btn-restart').addEventListener('click', () => initGame());
+document.getElementById('btn-restart').addEventListener('click', () => {
+  requestAnimationFrame(() => initGame());
+});
 document.getElementById('btn-menu').addEventListener('click', () => {
   running = false;
   clearTimeout(loopTimer);
