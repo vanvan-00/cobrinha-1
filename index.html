@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0d0d0d" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Snake Pro" />
+  <title>Snake Pro</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════
+       TELA: MENU PRINCIPAL
+  ══════════════════════════════════════════ -->
+  <div id="screen-menu" class="screen active">
+    <div class="menu-bg">
+      <canvas id="bg-canvas"></canvas>
+    </div>
+    <div class="menu-content">
+      <div class="logo-wrap">
+        <div class="logo-glow"></div>
+        <h1 class="logo">SNAKE<span>PRO</span></h1>
+        <p class="logo-sub">CYBERPUNK EDITION</p>
+      </div>
+      <div class="menu-stats">
+        <div class="stat-pill">
+          <span class="stat-icon">🏆</span>
+          <span class="stat-label">RECORDE</span>
+          <span class="stat-val" id="menu-best">0</span>
+        </div>
+        <div class="stat-pill gold">
+          <span class="stat-icon">🪙</span>
+          <span class="stat-label">MOEDAS</span>
+          <span class="stat-val" id="menu-coins">0</span>
+        </div>
+      </div>
+      <div class="menu-buttons">
+        <button class="btn-primary" id="btn-play">
+          <span class="btn-icon">▶</span> JOGAR
+        </button>
+        <button class="btn-secondary" id="btn-shop">
+          <span class="btn-icon">🛒</span> LOJA
+        </button>
+      </div>
+      <div class="difficulty-select">
+        <p class="diff-label">DIFICULDADE INICIAL</p>
+        <div class="diff-pills">
+          <button class="diff-btn active" data-speed="110">FÁCIL</button>
+          <button class="diff-btn" data-speed="80">MÉDIO</button>
+          <button class="diff-btn" data-speed="55">DIFÍCIL</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       TELA: LOJA
+  ══════════════════════════════════════════ -->
+  <div id="screen-shop" class="screen">
+    <div class="shop-header">
+      <button class="btn-back" id="btn-back-shop">← VOLTAR</button>
+      <h2 class="shop-title">LOJA</h2>
+      <div class="coin-display">
+        <span>🪙</span>
+        <span id="shop-coins">0</span>
+      </div>
+    </div>
+    <div class="shop-grid" id="shop-grid">
+      <!-- gerado pelo JS -->
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       TELA: JOGO
+  ══════════════════════════════════════════ -->
+  <div id="screen-game" class="screen">
+
+    <!-- HUD -->
+    <div class="hud">
+      <div class="hud-left">
+        <span class="hud-label">SCORE</span>
+        <span id="score" class="hud-val">0</span>
+      </div>
+      <div class="hud-center">
+        <div class="powerup-indicator" id="powerup-indicator">
+          <span id="powerup-icon">🛡</span>
+          <div class="powerup-bar-wrap">
+            <div class="powerup-bar" id="powerup-bar"></div>
+          </div>
+        </div>
+      </div>
+      <div class="hud-right">
+        <span class="hud-label">🪙</span>
+        <span id="hud-coins" class="hud-val gold">0</span>
+      </div>
+    </div>
+
+    <!-- CANVAS -->
+    <div class="canvas-wrap">
+      <canvas id="game"></canvas>
+
+      <!-- OVERLAY GAME OVER -->
+      <div id="overlay" class="overlay hidden">
+        <div class="overlay-content">
+          <p class="over-title">GAME OVER</p>
+          <div class="over-stats">
+            <div class="over-stat">
+              <span class="over-label">PONTOS</span>
+              <span class="over-val" id="final-score">0</span>
+            </div>
+            <div class="over-stat">
+              <span class="over-label">RECORDE</span>
+              <span class="over-val" id="final-best">0</span>
+            </div>
+            <div class="over-stat">
+              <span class="over-label">🪙 GANHAS</span>
+              <span class="over-val gold" id="final-coins">0</span>
+            </div>
+          </div>
+          <div class="over-buttons">
+            <button class="btn-primary" id="btn-restart">↺ REINICIAR</button>
+            <button class="btn-secondary" id="btn-menu">⌂ MENU</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- OVERLAY PAUSA -->
+      <div id="overlay-pause" class="overlay hidden">
+        <div class="overlay-content">
+          <p class="over-title" style="color:var(--cyan)">PAUSADO</p>
+          <button class="btn-primary" id="btn-resume">▶ CONTINUAR</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTROLES MOBILE -->
+    <div class="game-footer">
+      <button class="btn-pause" id="btn-pause">⏸</button>
+      <div class="dpad">
+        <button id="btn-up">▲</button>
+        <button id="btn-left">◀</button>
+        <div class="dpad-center"></div>
+        <button id="btn-right">▶</button>
+        <button id="btn-down">▼</button>
+      </div>
+      <div class="hud-level">
+        <span class="hud-label">LVL</span>
+        <span id="level" class="hud-val cyan">1</span>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
